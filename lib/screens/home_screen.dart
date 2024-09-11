@@ -5,7 +5,7 @@ import 'package:gh_issue_tracker/api_helpers/api_repo.dart';
 import 'package:gh_issue_tracker/constants/app_colors.dart';
 import 'package:gh_issue_tracker/constants/app_constants.dart';
 import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
-import 'package:gh_issue_tracker/utils/helpers/helpers.dart';
+import 'package:gh_issue_tracker/screens/commits_screen.dart';
 import 'package:gh_issue_tracker/utils/widgets/core_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -117,46 +117,62 @@ class _HomeScreenState extends State<HomeScreen> {
                         slivers: [
                           SliverList.separated(
                             itemBuilder: (context, index) {
-                              final repo = _repos[index];
+                              SingleRepo repo = _repos[index];
 
-                              return Padding(
-                                padding: AppConstants.screenPadding,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    log('$index got clicked!');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CommitsScreen(repo: repo)));
+                                  },
+                                  child: Padding(
+                                    padding: AppConstants.screenPadding,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
                                       children: [
-                                        Expanded(
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              '${index + 1}: ${repo.fullName}',
-                                              overflow: TextOverflow.clip,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  '${index + 1}: ${repo.fullName}',
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.date_range),
+                                            const SizedBox(
+                                              width: 8,
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.date_range),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          'Updated At: ${repo.updatedAt}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                                  color:
-                                                      AppColors.timeTextColor),
+                                            Text(
+                                              'Updated At: ${repo.updatedAt}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                      color: AppColors
+                                                          .timeTextColor),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               );
                             },

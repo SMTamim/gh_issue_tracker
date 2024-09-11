@@ -1,10 +1,20 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gh_issue_tracker/api_helpers/api_repo.dart';
 import 'package:gh_issue_tracker/constants/app_colors.dart';
 import 'package:gh_issue_tracker/constants/app_constants.dart';
+import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
+import 'package:gh_issue_tracker/models/issues_response.dart';
+import 'package:gh_issue_tracker/utils/helpers/helpers.dart';
 import 'package:gh_issue_tracker/utils/widgets/core_widgets.dart';
 
+// ignore: must_be_immutable
 class CommitsScreen extends StatefulWidget {
-  const CommitsScreen({super.key});
+  CommitsScreen({super.key, required this.repo});
+
+  SingleRepo repo;
 
   @override
   State<CommitsScreen> createState() => _CommitsScreenState();
@@ -12,10 +22,25 @@ class CommitsScreen extends StatefulWidget {
 
 class _CommitsScreenState extends State<CommitsScreen> {
   bool isLoading = true;
+  IssuesResponse issues = IssuesResponse();
+
+  Future<void> getIssues() async {
+    IssuesResponse? response =
+        await APIRepo.getIssueResponse(repo: super.widget.repo);
+    if (response == null) {
+      log('No response for issues!');
+      return;
+    }
+    log(response.toJson().toString());
+    setState(() {
+      issues = response;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getIssues();
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
@@ -44,7 +69,7 @@ class _CommitsScreenState extends State<CommitsScreen> {
                             decoration: BoxDecoration(
                                 color: AppColors.capsuleColor,
                                 borderRadius: BorderRadius.circular(26)),
-                            child: const Text('master'),
+                            child: Text(widget.repo.defaultBranch),
                           ),
                         ],
                       ),
@@ -60,9 +85,11 @@ class _CommitsScreenState extends State<CommitsScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('$index: Number'),
+                                  Expanded(
+                                      child: Text(issues.items[index].title)),
                                   Text(
-                                    'Yesterday',
+                                    Helper.issueCreatedOn(
+                                        issues.items[index].createdAt),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -71,14 +98,29 @@ class _CommitsScreenState extends State<CommitsScreen> {
                                   )
                                 ],
                               ),
+                              const SizedBox(
+                                height: 8,
+                              ),
                               Row(
                                 children: [
-                                  const Icon(Icons.person),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppColors.capsuleColor),
+                                        child: CachedNetworkImage(
+                                          imageUrl: issues
+                                              .items[index].user.avatarUrl,
+                                        )),
+                                  ),
                                   const SizedBox(
                                     width: 8,
                                   ),
                                   Text(
-                                    'Francisco Miles',
+                                    issues.items[index].user.login,
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   )
@@ -91,7 +133,7 @@ class _CommitsScreenState extends State<CommitsScreen> {
                       separatorBuilder: (context, index) => const Divider(
                             color: AppColors.defaultDividerColor,
                           ),
-                      itemCount: 10)
+                      itemCount: issues.items.length)
                 ],
               ),
               bottomNavigationBar: Container(

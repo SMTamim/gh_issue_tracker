@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 class InternetConnectionException implements Exception {
   final String message;
@@ -67,7 +68,8 @@ class APIHelper {
     if (responseBody == null) {
       throw Exception('responseBody is null');
     }
-    if (responseBody is! Map<String, dynamic>) {
+    if (responseBody is! Map<String, dynamic> &&
+        responseBody is! List<dynamic>) {
       throw const FormatException('Response type is not Map<String, dynamic>');
     }
   }
@@ -203,7 +205,9 @@ class APIHelper {
   }
  */
   static bool isAPIResponseObjectSafe<T>(Object? unsafeValue) {
-    if (unsafeValue is Map<String, dynamic>) {
+    // log(unsafeValue.toString());
+    // log('type: ${unsafeValue.runtimeType.toString()}');
+    if (unsafeValue is Map<String, dynamic> || unsafeValue is List<dynamic>) {
       // Now it is safe
       log('safe response');
       return true;
