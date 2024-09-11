@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gh_issue_tracker/constants/app_theme.dart';
-import 'package:gh_issue_tracker/screens/commits_screen.dart';
+import 'package:gh_issue_tracker/screens/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
       theme: AppThemes.themeData,
 
       // Home Screen is set to Commits Screen
-      home: const CommitsScreen(),
+      home: const HomeScreen(),
     );
   }
 }
