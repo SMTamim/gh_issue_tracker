@@ -123,20 +123,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: AppConstants.screenPadding,
                                 child: Column(
                                   children: [
-                                    SizedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          FittedBox(
-                                            fit: BoxFit.fitWidth,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            alignment: Alignment.centerLeft,
                                             child: Text(
                                               '${index + 1}: ${repo.fullName}',
                                               overflow: TextOverflow.clip,
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                     Row(
                                       children: [
