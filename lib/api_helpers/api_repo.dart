@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gh_issue_tracker/api_helpers/api_client.dart';
 import 'package:gh_issue_tracker/api_helpers/api_helpers.dart';
+import 'package:gh_issue_tracker/models/git_hub_profile_response.dart';
 import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
 import 'package:gh_issue_tracker/models/issues_response.dart';
 import 'package:http/http.dart' as http;
@@ -50,6 +51,26 @@ class APIRepo {
       //   responseModel.incompleteResults = false;
       // }
       // log(responseModel.items.length.toString());
+      return responseModel;
+    } catch (e) {
+      APIHelper.handleExceptions(e);
+      return null;
+    }
+  }
+
+  static Future<GitHubProfileResponse?> getProfileResponse(
+      {required String profileName}) async {
+    try {
+      await APIHelper.preAPICallCheck();
+      final http.Response response =
+          await APIClient.instance.requestGetMethodAsJSONEncoded(
+        url: '/users/$profileName',
+      );
+
+      APIHelper.postAPICallCheck(response);
+      final GitHubProfileResponse responseModel =
+          GitHubProfileResponse.getAPIResponseObjectSafeValue(
+              jsonDecode(response.body));
       return responseModel;
     } catch (e) {
       APIHelper.handleExceptions(e);

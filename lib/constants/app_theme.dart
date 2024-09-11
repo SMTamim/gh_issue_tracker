@@ -11,7 +11,10 @@ class AppThemes {
           color: AppColors.primaryTextColor,
           fontSize: 17,
           fontFamily: GoogleFonts.sourceSans3().fontFamily),
-      // bodyLarge: TextStyle(color: Colors.white),
+      bodyLarge: TextStyle(
+          color: AppColors.primaryTextColor,
+          fontSize: 24,
+          fontFamily: GoogleFonts.sourceSans3().fontFamily),
       bodySmall: TextStyle(
           color: AppColors.secondaryTextColor,
           fontSize: 12,

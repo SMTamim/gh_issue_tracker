@@ -7,6 +7,7 @@ import 'package:gh_issue_tracker/constants/app_colors.dart';
 import 'package:gh_issue_tracker/constants/app_constants.dart';
 import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
 import 'package:gh_issue_tracker/models/issues_response.dart';
+import 'package:gh_issue_tracker/screens/user_profile_screen.dart';
 import 'package:gh_issue_tracker/utils/helpers/helpers.dart';
 import 'package:gh_issue_tracker/utils/widgets/core_widgets.dart';
 
@@ -101,30 +102,43 @@ class _CommitsScreenState extends State<CommitsScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColors.capsuleColor),
-                                        child: CachedNetworkImage(
-                                          imageUrl: issues
-                                              .items[index].user.avatarUrl,
-                                        )),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                    issues.items[index].user.login,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  )
-                                ],
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserProfileScreen(
+                                                profileName: issues
+                                                    .items[index].user.login,
+                                                repo: widget.repo,
+                                              )));
+                                },
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Container(
+                                          height: 20,
+                                          width: 20,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.capsuleColor),
+                                          child: CachedNetworkImage(
+                                            imageUrl: issues
+                                                .items[index].user.avatarUrl,
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      issues.items[index].user.login,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -159,21 +173,32 @@ class _CommitsScreenState extends State<CommitsScreen> {
                         )
                       ],
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.person,
-                            color: AppColors.defaultNavBarColor),
-                        Text(
-                          'User Profile',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: AppColors.defaultNavBarColor,
-                                  fontSize: 10),
-                        )
-                      ],
+                    InkWell(
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserProfileScreen(
+                                      profileName: 'smtamim',
+                                      repo: widget.repo,
+                                    )))
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.person,
+                              color: AppColors.defaultNavBarColor),
+                          Text(
+                            'User Profile',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: AppColors.defaultNavBarColor,
+                                    fontSize: 10),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
