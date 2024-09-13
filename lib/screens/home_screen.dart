@@ -5,7 +5,7 @@ import 'package:gh_issue_tracker/api_helpers/api_repo.dart';
 import 'package:gh_issue_tracker/constants/app_colors.dart';
 import 'package:gh_issue_tracker/constants/app_constants.dart';
 import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
-import 'package:gh_issue_tracker/screens/commits_screen.dart';
+import 'package:gh_issue_tracker/screens/issues_list_screen.dart';
 import 'package:gh_issue_tracker/utils/widgets/core_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CommitsScreen(repo: repo)));
+                                                IssuesListScreen(repo: repo)));
                                   },
                                   child: Padding(
                                     padding: AppConstants.screenPadding,

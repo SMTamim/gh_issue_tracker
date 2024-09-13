@@ -7,7 +7,7 @@ import 'package:gh_issue_tracker/constants/app_colors.dart';
 import 'package:gh_issue_tracker/constants/app_constants.dart';
 import 'package:gh_issue_tracker/models/git_hub_profile_response.dart';
 import 'package:gh_issue_tracker/models/git_hub_search_response.dart';
-import 'package:gh_issue_tracker/screens/commits_screen.dart';
+import 'package:gh_issue_tracker/screens/issues_list_screen.dart';
 import 'package:gh_issue_tracker/utils/widgets/core_widgets.dart';
 
 // ignore: must_be_immutable
@@ -138,7 +138,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    CommitsScreen(repo: widget.repo)));
+                                    IssuesListScreen(repo: widget.repo)));
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
