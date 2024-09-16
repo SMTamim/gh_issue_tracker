@@ -2,17 +2,20 @@ import 'package:gh_issue_tracker/api_helpers/api_helpers.dart';
 
 class GitHubSearchResponse {
   int totalCount;
+  String message;
   bool incompleteResults;
   List<SingleRepo> items;
 
   GitHubSearchResponse(
       {this.totalCount = 0,
+      this.message = '',
       this.incompleteResults = false,
       this.items = const []});
 
   factory GitHubSearchResponse.fromJson(Map<String, dynamic> json) {
     return GitHubSearchResponse(
       totalCount: APIHelper.getSafeIntValue(json['total_count']),
+      message: APIHelper.getSafeStringValue(json['message']),
       incompleteResults: APIHelper.getSafeBoolValue(json['incomplete_results']),
       items: APIHelper.getSafeListValue(json['items'])
           .map((e) => SingleRepo.getAPIResponseObjectSafeValue(e))
@@ -22,6 +25,7 @@ class GitHubSearchResponse {
 
   Map<String, dynamic> toJson() => {
         'total_count': totalCount,
+        'message': message,
         'incomplete_results': incompleteResults,
         'items': items.map((e) => e.toJson()).toList(),
       };

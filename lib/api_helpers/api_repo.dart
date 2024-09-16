@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gh_issue_tracker/api_helpers/api_client.dart';
 import 'package:gh_issue_tracker/api_helpers/api_helpers.dart';
 import 'package:gh_issue_tracker/models/git_hub_profile_response.dart';
@@ -28,6 +29,11 @@ class APIRepo {
         responseModel.incompleteResults = false;
       }
       // log(responseModel.items.length.toString());
+      if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: 'API rate limit exceeded! Please wait a few seconds.');
+        throw Exception(response);
+      }
       return responseModel.items;
     } catch (e) {
       APIHelper.handleExceptions(e);
@@ -55,6 +61,11 @@ class APIRepo {
         responseModel.incompleteResults = false;
       }
       // log(responseModel.items.length.toString());
+      if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: 'API rate limit exceeded! Please wait a few seconds.');
+        throw Exception(response);
+      }
       return responseModel.items;
     } catch (e) {
       APIHelper.handleExceptions(e);

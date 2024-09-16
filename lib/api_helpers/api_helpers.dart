@@ -209,10 +209,8 @@ class APIHelper {
     // log('type: ${unsafeValue.runtimeType.toString()}');
     if (unsafeValue is Map<String, dynamic> || unsafeValue is List<dynamic>) {
       // Now it is safe
-      log('safe response');
       return true;
     }
-    log('unsafe response');
     return false;
   }
 }
