@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="gh_issue_tracker"
+        android:label="GH Issue Tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
