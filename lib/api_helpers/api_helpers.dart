@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class InternetConnectionException implements Exception {
@@ -34,6 +35,7 @@ class APIHelper {
   static Future<void> preAPICallCheck() async {
     // Check internet connection
     final bool isConnectedToInternet = await isConnectedInternet();
+    log('isConnectedToInternet: $isConnectedToInternet');
     if (!isConnectedToInternet) {
       throw InternetConnectionException(message: 'Not connected to internet');
     }
@@ -41,8 +43,9 @@ class APIHelper {
 
   // Method to check internet connection using connectivity_plus
   static Future<bool> isConnectedInternet() async {
+    
     var connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
+    return connectivityResult[0] != ConnectivityResult.none;
   }
 
   static bool isResponseStatusCodeIn400(int? statusCode) {
@@ -82,7 +85,7 @@ class APIHelper {
   static void handleExceptions(Object? exception) {
     /// API error exception of "connection timed out" handling
     if (exception is InternetConnectionException) {
-      log(exception.message);
+      Fluttertoast.showToast(msg: exception.message);
     } else if (exception is SocketException) {
       log(exception.message);
     } else if (exception is FormatException) {

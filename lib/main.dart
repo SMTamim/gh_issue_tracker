@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gh_issue_tracker/constants/app_theme.dart';
 import 'package:gh_issue_tracker/screens/home_screen.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(const MainApp());
 }
@@ -16,8 +18,7 @@ class MainApp extends StatelessWidget {
       title: 'GitHub Issue Tracker',
 
       theme: AppThemes.themeData,
-
-      // Home Screen is set to Commits Screen
+      navigatorKey: navigatorKey,
       home: const HomeScreen(),
     );
   }

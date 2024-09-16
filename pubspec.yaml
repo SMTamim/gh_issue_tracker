@@ -1,5 +1,5 @@
 name: gh_issue_tracker
-description: "A new Flutter project."
+description: "Github Issue Tracker for GTAF"
 publish_to: 'none'
 version: 0.1.0
 
